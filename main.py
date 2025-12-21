@@ -4,6 +4,7 @@ from src.qubit import Qubit
 from collections import Counter
 from src.alice import Alice
 from src.bob import Bob
+from src.utils import sift_keys, calculate_qber
 
 
 # Check Magnitude
@@ -57,20 +58,10 @@ bob.measure_qubits(traffic)
 print(f"Bases of Alice: {alice.bases}")
 print(f"Bases of Bob: {bob.bases}")
 
-for i, (basis_a, basis_b) in enumerate(zip(alice.bases, bob.bases)):
-    if basis_a == basis_b:
-        matching_bases.append(i)
+alice_sift_key, bob_sift_key = sift_keys(alice.bases, bob.bases, alice.bits, bob.bits)
 
-print(f"Index of matching bases: {matching_bases}")
+qber = calculate_qber(alice_sift_key, bob_sift_key)
 
-# Bits of Alice and Bob
-print(f"Bits of Alice: {alice.bits}")
-print(f"Bits of Bob: {bob.bits}")
-
-# Alice and Bob generate key by collecting the bits where bases match
-alice_key = [alice.bits[i] for i in matching_bases]
-bob_key = [bob.bits[i] for i in matching_bases]
-
-print(f"Length of keys of Alice and Bob: {len(alice_key), len(bob_key)} respectively.")
-print(f"Alice key: {alice_key}, Bob key: {bob_key}")
-print(f"Do they match?: {alice_key == bob_key}")
+print(f"Alice's sifted key: {alice_sift_key}, '\n', Bob's sifted key: {bob_sift_key}")
+print(f"Are they same?: {np.all(alice_sift_key == bob_sift_key)}")
+print(f"QBER value: {qber}")
