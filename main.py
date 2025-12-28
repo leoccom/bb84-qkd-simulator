@@ -2,7 +2,6 @@ import numpy as np
 from src.constants import BASIS_STANDARD, ZERO, ONE, PLUS, MINUS
 from src.eve import Eve
 from src.qubit import Qubit
-from collections import Counter
 from src.alice import Alice
 from src.bob import Bob
 from src.utils import sift_keys, calculate_qber
